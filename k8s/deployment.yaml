@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-test
+  namespace: test
+  labels:
+    app: simple-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-test          # ← le Deployment "trouve" ses pods par label
+  template:
+    metadata:
+      labels:
+        app: simple-test        # ← label porté par chaque pod
+    spec:
+      containers:
+        - name: simple-test
+          image: simple-test-auto:0.0.1
+          imagePullPolicy: IfNotPresent   # ← sinon Kind tente un pull registry → échec
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              memory: "768Mi"    # ← le calculateur mémoire des buildpacks lit cette limite

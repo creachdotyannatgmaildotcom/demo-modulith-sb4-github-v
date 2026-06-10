@@ -22,6 +22,7 @@ public class CoffeeEntity {
         this.name = name;
         this.price = price;
     }
+    public int getPrice() { return price; }
 
     public Long getId() {
         return id;

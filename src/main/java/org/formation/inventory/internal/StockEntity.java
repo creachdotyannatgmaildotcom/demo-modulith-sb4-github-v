@@ -22,7 +22,7 @@ public class StockEntity {
         this.coffeeId = coffeeId;
         this.quantity = quantity;
     }
-
+    public int getQuantity() { return quantity; }
     public Long getCoffeeId() {
         return coffeeId;
     }
