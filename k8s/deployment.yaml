@@ -27,3 +27,13 @@ spec:
               memory: "512Mi"
             limits:
               memory: "768Mi"    # ← le calculateur mémoire des buildpacks lit cette limite
+          startupProbe: # protège un démarrage JVM lent
+            httpGet: { path: /actuator/health/liveness, port: 8080 }
+            failureThreshold: 30
+            periodSeconds: 5            # ~150 s max pour booter
+          livenessProbe: # "suis-je bloqué ?" → redémarrage
+            httpGet: { path: /actuator/health/liveness, port: 8080 }
+            periodSeconds: 10
+          readinessProbe: # "puis-je servir ?" → trafic
+            httpGet: { path: /actuator/health/readiness, port: 8080 }
+            periodSeconds: 5
